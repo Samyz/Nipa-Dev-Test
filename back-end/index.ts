@@ -93,6 +93,9 @@ app.post('/', async (req: Request, res: Response): Promise<Response> => {
       console.log(process.env.DATABASE_URL);
       return res.status(200).json({
         data: result.rows,
+        status: statusList.map((value, index) => {
+          return value.status;
+        }),
       });
     } else {
       return res.status(400).json({ error: 'Invalid parameters' });
@@ -127,7 +130,7 @@ app.put('/', async (req: Request, res: Response): Promise<Response> => {
           statusList.filter((value, index) => {
             return value.status === json.status;
           })[0].status_id
-        } WHERE ticket_id = ${json.id};`
+        }, updated_on = now() WHERE ticket_id = ${json.id};`
       );
 
       const result =
@@ -140,6 +143,9 @@ app.put('/', async (req: Request, res: Response): Promise<Response> => {
       console.log(process.env.DATABASE_URL);
       return res.status(200).json({
         data: result.rows,
+        status: statusList.map((value, index) => {
+          return value.status;
+        }),
       });
     } else {
       return res.status(400).json({ error: 'Invalid parameters' });
