@@ -31,9 +31,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
-  console.log(req);
+  //   console.log(req);
+  console.log(process.env.DATABASE_URL);
   const client = await db.connect();
-  const result = await client.query('SELECT * FROM tickets');
+  const result = await client.query('SELECT * FROM ticket');
 
   client.release();
   console.log(process.env.DATABASE_URL);
