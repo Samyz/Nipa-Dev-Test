@@ -73,19 +73,21 @@ app.post('/', async (req: Request, res: Response): Promise<Response> => {
       !errList.includes(json.description) &&
       !errList.includes(json.contact)
     ) {
-      const result = await client.query(
+      const insert = await client.query(
         `insert into ticket(title, description, contact, status, created_on) values('${
           json.title
         }', '${json.description}', '${json.contact}', ${
           statusList.filter((value, index) => {
             return value.status === json.status;
           })[0].status_id
-        }, now());
-        SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
-  FROM ticket
-  LEFT JOIN status_list ON ticket.status = status_list.status_id
-  ORDER BY ticket.status;`
+        }, now());`
       );
+
+      const result =
+        await client.query(`SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
+      FROM ticket
+      LEFT JOIN status_list ON ticket.status = status_list.status_id
+      ORDER BY ticket.status;`);
 
       client.release();
       console.log(process.env.DATABASE_URL);
@@ -118,19 +120,21 @@ app.put('/', async (req: Request, res: Response): Promise<Response> => {
       !errList.includes(json.description) &&
       !errList.includes(json.contact)
     ) {
-      const result = await client.query(
+      const update = await client.query(
         `UPDATE ticket SET title = '${json.title}', description = '${
           json.description
         }', contact = '${json.contact}', status = ${
           statusList.filter((value, index) => {
             return value.status === json.status;
           })[0].status_id
-        } WHERE ticket_id = ${json.id};
-        SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
-  FROM ticket
-  LEFT JOIN status_list ON ticket.status = status_list.status_id
-  ORDER BY ticket.status;`
+        } WHERE ticket_id = ${json.id};`
       );
+
+      const result =
+        await client.query(`SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
+      FROM ticket
+      LEFT JOIN status_list ON ticket.status = status_list.status_id
+      ORDER BY ticket.status;`);
 
       client.release();
       console.log(process.env.DATABASE_URL);
