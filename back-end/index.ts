@@ -31,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
+  console.log(req);
   const client = await db.connect();
   const result = await client.query('SELECT * FROM tickets');
 
