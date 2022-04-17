@@ -1,4 +1,15 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
+import * as dotenv from 'dotenv';
+import { Pool } from 'pg';
+
+dotenv.config();
+
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
@@ -20,6 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
+  const client = await db.connect();
+  const result = await client.query('SELECT * FROM tickets');
+  return res.status(200).json({
+    data: result,
+  });
+  console.log(process.env.DATABASE_URL);
   return res.status(200).send({
     message: 'Hello World!',
   });
