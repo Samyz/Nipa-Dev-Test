@@ -80,7 +80,11 @@ app.post('/', async (req: Request, res: Response): Promise<Response> => {
           statusList.filter((value, index) => {
             return value.status === json.status;
           })[0].status_id
-        }, now());`
+        }, now());
+        SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
+  FROM ticket
+  LEFT JOIN status_list ON ticket.status = status_list.status_id
+  ORDER BY ticket.status;`
       );
 
       client.release();
@@ -121,7 +125,11 @@ app.put('/', async (req: Request, res: Response): Promise<Response> => {
           statusList.filter((value, index) => {
             return value.status === json.status;
           })[0].status_id
-        } WHERE ticket_id = json.id;`
+        } WHERE ticket_id = ${json.id};
+        SELECT ticket.ticket_id, ticket.title, ticket.description, ticket.contact, status_list.status, ticket.created_on, ticket.updated_on
+  FROM ticket
+  LEFT JOIN status_list ON ticket.status = status_list.status_id
+  ORDER BY ticket.status;`
       );
 
       client.release();
