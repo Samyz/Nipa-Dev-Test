@@ -33,13 +33,15 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
   const client = await db.connect();
   const result = await client.query('SELECT * FROM tickets');
+
+  client.release();
+  console.log(process.env.DATABASE_URL);
   return res.status(200).json({
     data: result,
   });
-  console.log(process.env.DATABASE_URL);
-  return res.status(200).send({
-    message: 'Hello World!',
-  });
+  //   return res.status(200).send({
+  //     message: 'Hello World!',
+  //   });
 });
 
 // try {
