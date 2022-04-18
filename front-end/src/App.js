@@ -37,12 +37,23 @@ const App = () => {
     'rejected',
   ]);
 
+  const toLocalTime = (time) => {
+    let thisDate = new Date(time);
+    return thisDate.toLocaleString();
+  };
+
   const queryDB = async () => {
     try {
       let query = await axios.get('/');
       console.log(query.data);
       setStatus(query.data.status);
-      setData(query.data.data);
+      setData(
+        query.data.data.map((item) => {
+          item.created_on = toLocalTime(item.created_on);
+          item.updated_on = toLocalTime(item.updated_on);
+          return item;
+        })
+      );
     } catch (err) {
       console.error(err);
     }
