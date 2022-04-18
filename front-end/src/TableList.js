@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { upperFirst } from 'lodash';
 
 import {
@@ -13,12 +13,13 @@ import Buttons from './Buttons';
 
 export default function TableList(props) {
   const columns = Object.keys(props.data[0]);
-
   /**
    * A custom sort function for the list of desserts.
    */
   const sort = (key, ascending) => {
+    console.log(props.data);
     const sorted = props.data.slice();
+    console.log(sorted);
     sorted.sort((a, b) => {
       const aValue = a[key];
       const bValue = b[key];
@@ -40,6 +41,14 @@ export default function TableList(props) {
     sortOrder: 'ascending',
   }));
 
+  React.useEffect(() => {
+    setState({
+      data: sort('title', true),
+      sortKey: 'title',
+      sortOrder: 'ascending',
+    });
+  }, [props.data]);
+
   const update = (sortKey) => {
     setState((prevState) => {
       const prevSortKey = prevState.sortKey;
@@ -52,7 +61,7 @@ export default function TableList(props) {
       } else {
         // it's a new column to sort by, so default to ascending for the name column
         // but descending for all the rest.
-        sortOrder = sortKey === 'name' ? 'ascending' : 'descending';
+        sortOrder = sortKey === 'title' ? 'ascending' : 'descending';
       }
 
       return {

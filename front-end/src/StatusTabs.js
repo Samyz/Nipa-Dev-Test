@@ -17,6 +17,7 @@ export default function StatusTabs(props) {
             <TabPanel>
               <TableList
                 data={props.data.filter((dataItem) => {
+                  console.log(dataItem, dataItem.status === status);
                   return dataItem.status === status;
                 })}
               />

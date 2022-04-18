@@ -8,6 +8,18 @@ import axios from './axios';
 import TableList from './TableList';
 import StatusTabs from './StatusTabs';
 import Buttons from './Buttons';
+import TicketForm from './TicketForm';
+
+import { Button } from '@react-md/button';
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+} from '@react-md/dialog';
+import { Typography } from '@react-md/typography';
+import { useToggle } from '@react-md/utils';
 
 const App = () => {
   const [data, setData] = useState([
@@ -62,13 +74,39 @@ const App = () => {
 
   useEffect(() => {
     queryDB();
-    console.log('eee');
   }, []);
+
+  const [visible, enable, disable] = useToggle(false);
+
   return (
     <div className='App Container'>
       <h2 className='title'>Nipa Dev Interview Test</h2>
-      <Buttons type='add' className='add-button' />
+      <Buttons
+        type='add'
+        className='add-button'
+        onClick={() => {
+          enable();
+        }}
+      />
       <StatusTabs status={status} data={data} />
+      <Dialog
+        id='simple-dialog'
+        visible={visible}
+        onRequestClose={disable}
+        aria-labelledby='dialog-title'
+      >
+        <DialogHeader>
+          <DialogTitle id='dialog-title'>Add Ticket</DialogTitle>
+        </DialogHeader>
+        <DialogContent>
+          <TicketForm
+            status={status}
+            disable={disable}
+            setData={setData}
+            setStatus={setStatus}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -10,6 +10,7 @@ export default function Buttons(props) {
       themeType='outline'
       className={props.className}
       aria-label={props.type}
+      onClick={props.onClick}
     >
       <TextIconSpacing icon={<FontIcon>{props.type}</FontIcon>}>
         {props.type}
