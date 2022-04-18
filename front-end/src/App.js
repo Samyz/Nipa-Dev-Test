@@ -7,6 +7,7 @@ import axios from './axios';
 
 import TableList from './TableList';
 import StatusTabs from './StatusTabs';
+import Buttons from './Buttons';
 
 const App = () => {
   const [data, setData] = useState([
@@ -64,19 +65,9 @@ const App = () => {
     console.log('eee');
   }, []);
   return (
-    <div className='App'>
-      hello
-      {/* {data.filter((item) => {
-        return item.status === 'aaa';
-      }).length > 0 ? (
-        <TableList
-          data={data.filter((item) => {
-            return item.status === 'aaa';
-          })}
-        />
-      ) : (
-        <div>No content</div>
-      )} */}
+    <div className='App Container'>
+      <h2 className='title'>Nipa Dev Interview Test</h2>
+      <Buttons type='add' className='add-button' />
       <StatusTabs status={status} data={data} />
     </div>
   );

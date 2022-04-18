@@ -9,6 +9,7 @@ import {
   TableCell,
   TableBody,
 } from '@react-md/table';
+import Buttons from './Buttons';
 
 export default function TableList(props) {
   const columns = Object.keys(props.data[0]);
@@ -99,6 +100,9 @@ export default function TableList(props) {
                   ''
                 );
               })}
+              <TableCell>
+                <Buttons type='edit' />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

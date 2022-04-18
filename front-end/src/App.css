@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  position: relative;
 }
 
 .App-logo {
@@ -35,4 +36,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Container {
+  margin: auto;
+  max-width: 1200px;
+}
+
+.add-button {
+  float: right;
+  margin-top: 1.5em;
+}
+
+.title {
+  display: inline-block;
+}
+
+.no-content-text {
+  margin-top: 1.5em;
+  text-align: center;
 }

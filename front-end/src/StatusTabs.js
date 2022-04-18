@@ -23,7 +23,7 @@ export default function StatusTabs(props) {
             </TabPanel>
           ) : (
             <TabPanel>
-              <div>No {status} content</div>
+              <div className='no-content-text'>No {status} content</div>
             </TabPanel>
           );
         })}
