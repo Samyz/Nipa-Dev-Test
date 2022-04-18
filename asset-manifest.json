@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Nipa-Dev-Test/static/css/main.b07fe723.css",
+    "main.js": "/Nipa-Dev-Test/static/js/main.01cfb4d2.js",
+    "static/media/logo.svg": "/Nipa-Dev-Test/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Nipa-Dev-Test/index.html",
+    "main.b07fe723.css.map": "/Nipa-Dev-Test/static/css/main.b07fe723.css.map",
+    "main.01cfb4d2.js.map": "/Nipa-Dev-Test/static/js/main.01cfb4d2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b07fe723.css",
+    "static/js/main.01cfb4d2.js"
+  ]
+}
