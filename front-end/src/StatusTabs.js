@@ -20,6 +20,9 @@ export default function StatusTabs(props) {
                   console.log(dataItem, dataItem.status === status);
                   return dataItem.status === status;
                 })}
+                status={props.status}
+                setData={props.setData}
+                setStatus={props.setStatus}
               />
             </TabPanel>
           ) : (

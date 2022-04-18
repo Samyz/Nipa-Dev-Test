@@ -11,6 +11,16 @@ import {
 } from '@react-md/table';
 import Buttons from './Buttons';
 
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+} from '@react-md/dialog';
+import { useToggle } from '@react-md/utils';
+import TicketForm from './TicketForm';
+
 export default function TableList(props) {
   const columns = Object.keys(props.data[0]);
   /**
@@ -73,49 +83,83 @@ export default function TableList(props) {
   };
 
   const { data, sortKey, sortOrder } = state;
+
+  const [visible, enable, disable] = useToggle(false);
+
+  const [pressData, setPressData] = useState(null);
+
   return (
-    <TableContainer>
-      <Table fullWidth>
-        <TableHeader>
-          <TableRow>
-            {columns.map((name) => {
-              return name !== 'ticket_id' ? (
-                <TableCell
-                  key={name}
-                  aria-sort={name === sortKey ? sortOrder : 'none'}
-                  onClick={() => update(name)}
-                >
-                  {upperFirst(name)}
-                </TableCell>
-              ) : (
-                ''
-              );
-            })}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((item) => (
-            <TableRow key={item.title}>
-              {columns.map((key) => {
-                return key !== 'ticket_id' ? (
+    <>
+      <Dialog
+        id='simple-dialog'
+        visible={visible}
+        onRequestClose={disable}
+        aria-labelledby='dialog-title'
+      >
+        <DialogHeader>
+          <DialogTitle id='dialog-title'>Add Ticket</DialogTitle>
+        </DialogHeader>
+        <DialogContent>
+          <TicketForm
+            data={pressData}
+            status={props.status}
+            disable={disable}
+            setData={props.setData}
+            setStatus={props.setStatus}
+          />
+        </DialogContent>
+      </Dialog>
+      <TableContainer>
+        <Table fullWidth>
+          <TableHeader>
+            <TableRow>
+              {columns.map((name) => {
+                return name !== 'ticket_id' ? (
                   <TableCell
-                    key={key}
-                    // grow={key === 'title'}
-                    hAlign={typeof item[key] === 'number' ? 'right' : undefined}
+                    key={name}
+                    aria-sort={name === sortKey ? sortOrder : 'none'}
+                    onClick={() => update(name)}
                   >
-                    {item[key]}
+                    {upperFirst(name)}
                   </TableCell>
                 ) : (
                   ''
                 );
               })}
-              <TableCell>
-                <Buttons type='edit' />
-              </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHeader>
+          <TableBody>
+            {data.map((item) => (
+              <TableRow key={item.title}>
+                {columns.map((key) => {
+                  return key !== 'ticket_id' ? (
+                    <TableCell
+                      key={key}
+                      // grow={key === 'title'}
+                      hAlign={
+                        typeof item[key] === 'number' ? 'right' : undefined
+                      }
+                    >
+                      {item[key]}
+                    </TableCell>
+                  ) : (
+                    ''
+                  );
+                })}
+                <TableCell>
+                  <Buttons
+                    type='edit'
+                    onClick={() => {
+                      setPressData(item);
+                      enable();
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }

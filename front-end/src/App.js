@@ -18,7 +18,6 @@ import {
   DialogContent,
   DialogFooter,
 } from '@react-md/dialog';
-import { Typography } from '@react-md/typography';
 import { useToggle } from '@react-md/utils';
 
 const App = () => {
@@ -88,7 +87,12 @@ const App = () => {
           enable();
         }}
       />
-      <StatusTabs status={status} data={data} />
+      <StatusTabs
+        status={status}
+        data={data}
+        setData={setData}
+        setStatus={setStatus}
+      />
       <Dialog
         id='simple-dialog'
         visible={visible}

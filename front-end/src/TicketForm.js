@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from '@react-md/button';
 import { DialogFooter } from '@react-md/dialog';
@@ -32,20 +32,28 @@ export default function TicketForm(props) {
     },
   } = useForm({ mode: 'onChange' });
 
-  const [data, setState] = useState({
-    data: null,
-  });
-
   const toLocalTime = (time) => {
     let thisDate = new Date(time);
     return thisDate.toLocaleString();
   };
 
+  React.useEffect(() => {
+    console.log(props.data);
+    if (props.data) {
+      reset({
+        title: props.data.title,
+        description: props.data.description,
+        contact: props.data.contact,
+        status: props.data.status,
+      });
+      //   setState({ data: props.data });
+    }
+  }, []);
+
   return (
     <>
       <Form
         onReset={() => {
-          setState({ data: null });
           reset({
             title: '',
             description: '',
@@ -56,10 +64,29 @@ export default function TicketForm(props) {
         }}
         onSubmit={handleSubmit(async (data) => {
           console.log(data);
-          setState({ data });
           if (props.data === null || props.data === undefined) {
             try {
               let query = await axios.post('/', data);
+              console.log(query);
+              props.setStatus(query.data.status);
+              props.setData(
+                query.data.data.map((item) => {
+                  item.created_on = toLocalTime(item.created_on);
+                  item.updated_on = toLocalTime(item.updated_on);
+                  return item;
+                })
+              );
+              props.disable();
+            } catch (err) {
+              console.log(err);
+            }
+          } else {
+            console.log(props.data);
+            try {
+              let query = await axios.put('/', {
+                ...data,
+                id: parseInt(props.data.ticket_id),
+              });
               console.log(query);
               props.setStatus(query.data.status);
               props.setData(
